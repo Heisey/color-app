@@ -11,7 +11,7 @@ import './App.css';
 function App() {
   return (
     <div>
-      <Palette palette={seedColors[4]} />
+      <Palette {...seedColors[4]} />
     </div>
   );
 }
