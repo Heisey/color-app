@@ -12,7 +12,7 @@ import './App.css';
 function App() {
   return (
     <div>
-      <Palette palette={generatePalette(seedColors[4])} />
+      <Palette palette={generatePalette(seedColors[1])} />
     </div>
   );
 }
