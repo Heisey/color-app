@@ -3,6 +3,8 @@ import { withStyles } from '@material-ui/styles'
 
 // Components
 import ColorBox from '../ColorBox/ColorBox';
+import Footer from '../Footer/Footer';
+import NavBar from '../NavBar/NavBar';
 
 const styles = {
   SingleColorPalette: {
@@ -18,8 +20,16 @@ const styles = {
 class SingleColorPalette extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      format: 'hex'
+    }
     this._shades = this.gatherShades();
+    this.changeFormat = this.changeFormat.bind(this);
     this.gatherShades = this.gatherShades.bind(this);
+  }
+
+  changeFormat(val) {
+    this.setState({ format: val })
   }
 
   gatherShades() {
@@ -33,21 +43,29 @@ class SingleColorPalette extends Component {
     return shades.slice(1);
   }
   render() {
+    const { format } = this.state;
+    const { classes } = this.props;
+    const { emoji, paletteName} = this.props.palette
+
     const colorBoxes = this._shades.map(color => (
       <ColorBox key={color.id}
                 name={color.name}
-                background={color.hex}
+                background={color[format]}
                 showLink={false}
       />
     ))
 
-    const { classes } = this.props
     return (
       <div className={classes.SingleColorPalette}>
-        <h1>Yo</h1>
+        <NavBar handleChange={this.changeFormat}
+                showSlider={false}
+        />
         <div className={classes.colorBoxes}>
           {colorBoxes}
         </div>
+        <Footer paletteName={paletteName}
+                emoji={emoji}
+        />
       </div>
     )
   }

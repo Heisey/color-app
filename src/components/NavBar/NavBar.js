@@ -40,8 +40,19 @@ class NavBar extends Component {
   }
 
   render() {
-    const { level, changeLevel } = this.props;
+    const { level, changeLevel, showSlider } = this.props;
     const { format, open } = this.state;
+    const slider =  <div className="slider-container">
+                      <span>Level: {level}</span>
+                      <div className='slider'>
+                        <Slider defaultValue={level}
+                                min={100}
+                                max={900}
+                                step={100}
+                                onAfterChange={changeLevel}
+                        />
+                      </div>
+                    </div>
     return(
       <nav className="NavBar">
         <div className="logo">
@@ -49,17 +60,8 @@ class NavBar extends Component {
             HMG Color Picker
           </Link>
         </div>
-        <div className="slider-container">
-          <span>Level: {level}</span>
-          <div className='slider'>
-            <Slider defaultValue={level}
-                    min={100}
-                    max={900}
-                    step={100}
-                    onAfterChange={changeLevel}
-            />
-          </div>
-        </div>
+        {showSlider && slider }
+
         <div className="select-container">
           <Select onChange={this.handleFormatChange}
                   value={format}
