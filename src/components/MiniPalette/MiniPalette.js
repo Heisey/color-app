@@ -54,7 +54,9 @@ class MiniPalette extends Component {
     ))
     colors.map(color => console.log(color))
     return (
-      <div className={classes.MiniPalette}>
+      <div className={classes.MiniPalette}
+           onClick={this.props.handleClick}
+      >
         <div className={classes.colors}>
           {paletteColorBoxes}
         </div>
