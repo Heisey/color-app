@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // Components Material-UI
 import CloseIcon from '@material-ui/icons/Close';
@@ -44,7 +45,9 @@ class NavBar extends Component {
     return(
       <nav className="NavBar">
         <div className="logo">
-          <a href="/">HMG Color Picker</a>
+          <Link to="/">
+            HMG Color Picker
+          </Link>
         </div>
         <div className="slider-container">
           <span>Level: {level}</span>

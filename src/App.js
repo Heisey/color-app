@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 // Components
 import Palette from './components/Palette/Palette';
+import PaletteList from './components/PaletteList/PaletteList';
 
 // Assets
 import seedColors from './assets/seedColors';
@@ -16,10 +17,6 @@ class App extends Component {
       return palette.id === id
     })
     return seedPalette
-  }
-
-  consoleLog(param) {
-    console.log(param)
   }
 
   render() {
@@ -39,7 +36,7 @@ class App extends Component {
 
         <Route exact
                to="/"
-               render={() => <h1>Palette List goes here</h1>}
+               render={() => <PaletteList palettes={seedColors} />}
         />
 
 
