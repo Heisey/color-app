@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/styles'
 
 // Components
@@ -13,7 +14,42 @@ const styles = {
     flexDirection: "column"
   },
   colorBoxes: {
-    height: "90%"
+    height: "90%",
+    position: "relative"
+  },
+  goBack: {
+    width: "20%",
+    height: "50%",
+    margin: "0",
+    display: "inline-block",
+    position: "absolute",
+    cursor: "pointer",
+    marginBottom: "-3.5px",
+    backgroundColor: "black"
+  },
+
+  backButton: {
+    width: "100px",
+    height: "30px",
+    position: "absolute",
+    display: "inline-block",
+    top: "50%",
+    left: "50%",
+    marginLeft: "-50px",
+    marginTop: "-15px",
+    textAlign: "center",
+    outline: "none",
+    fontSize: "1rem",
+    lineHeight: "30px",
+    color: "white",
+    textTransform: "uppercase",
+    border: "none",
+    background: "rgba(255, 255, 255, 0.3)"
+  },
+
+  buttonText: {
+    textDecoration: "none",
+    color: "white"
   }
 }
 
@@ -45,13 +81,14 @@ class SingleColorPalette extends Component {
   render() {
     const { format } = this.state;
     const { classes } = this.props;
-    const { emoji, paletteName} = this.props.palette
+    const { emoji, id, paletteName} = this.props.palette
 
     const colorBoxes = this._shades.map(color => (
-      <ColorBox key={color.id}
+      <ColorBox key={color.name}
                 name={color.name}
                 background={color[format]}
                 showLink={false}
+                tall={true}
       />
     ))
 
@@ -62,6 +99,15 @@ class SingleColorPalette extends Component {
         />
         <div className={classes.colorBoxes}>
           {colorBoxes}
+          <div className={classes.goBack}>
+            <div className={classes.backButton}>
+              <Link className={classes.buttonText}
+                    to={`/palette/${id}`}
+              >
+                Go Back
+              </Link>
+            </div>
+          </div>
         </div>
         <Footer paletteName={paletteName}
                 emoji={emoji}

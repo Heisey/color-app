@@ -9,7 +9,8 @@ class ColorBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      copied: false
+      copied: false,
+      tall: this.props.tall
     }
 
     this.changeCopyState = this.changeCopyState.bind(this);
@@ -31,7 +32,7 @@ class ColorBox extends Component {
       <CopyToClipboard text={background}
                        onCopy={this.changeCopyState}
       >
-        <div className="ColorBox"
+        <div className={this.state.tall ? "ColorBox tall" : "ColorBox small"}
              style={{
                background: background
              }}
