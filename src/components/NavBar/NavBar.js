@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/styles';
 
 // Components Material-UI
 import CloseIcon from '@material-ui/icons/Close';
@@ -13,7 +14,7 @@ import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
 
 // Custom Styles
-import './NavBar.css';
+import styles from './NavBarStyles';
 
 class NavBar extends Component {
   constructor(props) {
@@ -40,11 +41,11 @@ class NavBar extends Component {
   }
 
   render() {
-    const { level, changeLevel, showSlider } = this.props;
+    const { changeLevel, classes, level, showSlider } = this.props;
     const { format, open } = this.state;
-    const slider =  <div className="slider-container">
+    const slider =  <div>
                       <span>Level: {level}</span>
-                      <div className='slider'>
+                      <div className={classes.slider}>
                         <Slider defaultValue={level}
                                 min={100}
                                 max={900}
@@ -54,15 +55,15 @@ class NavBar extends Component {
                       </div>
                     </div>
     return(
-      <nav className="NavBar">
-        <div className="logo">
+      <nav className={classes.NavBar}>
+        <div className={classes.logo}>
           <Link to="/">
             HMG Color Picker
           </Link>
         </div>
         {showSlider && slider }
 
-        <div className="select-container">
+        <div className={classes.selectContainer}>
           <Select onChange={this.handleFormatChange}
                   value={format}
           >
@@ -101,4 +102,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withStyles(styles)(NavBar);
