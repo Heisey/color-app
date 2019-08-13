@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 // Components
 import Palette from './components/Palette/Palette';
+import PaletteForm from './components/PaletteForm/PaletteForm';
 import PaletteList from './components/PaletteList/PaletteList';
 import SingleColorPalette from './components/SingleColorPalette/SingleColorPalette';
 
@@ -24,6 +25,13 @@ class App extends Component {
       this.findPalette("flat-ui-colors-v1")
     return (
       <Switch>
+
+        <Route exact
+               path="/palette/create"
+               render={routeProps => (
+                 <PaletteForm />
+               )}
+        />
 
         <Route exact
               path="/palette/:id"
