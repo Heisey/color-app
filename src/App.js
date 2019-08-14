@@ -44,7 +44,10 @@ class App extends Component {
         <Route exact
                path="/palette/create"
                render={routeProps => (
-                 <PaletteForm {...routeProps} savePalette={this.savePalette} />
+                 <PaletteForm savePalette={this.savePalette}
+                              palettes={this.state.palettes}
+                              {...routeProps}
+                 />
                )}
         />
 
