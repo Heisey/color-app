@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Assets
 import { arrayMove } from 'react-sortable-hoc';
+import chroma from 'chroma-js';
 import { withStyles } from '@material-ui/core/styles';
 import { ChromePicker } from 'react-color';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
@@ -101,17 +102,18 @@ class PaletteForm extends Component {
       paletteName: '',
       currentColor: '',
       colorName: '',
-      colors: [
-        {color: 'lime', name: 'Lime'}
-      ]
+      count: this.props.palettes[0].colors.length,
+      colors: this.props.palettes[0].colors
     }
 
     this.addColor = this.addColor.bind(this);
+    this.clearColors = this.clearColors.bind(this);
     this.deleteColor = this.deleteColor.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.randomColor = this.randomColor.bind(this);
     this.savePalette = this.savePalette.bind(this);
   }
 
@@ -136,13 +138,23 @@ class PaletteForm extends Component {
   }
 
   addColor() {
-    const newColor = {color: this.state.currentColor, name: this.state.colorName}
-    this.setState({ colors: [...this.state.colors, newColor], colorName: ""})
+      const newColor = {color: this.state.currentColor, name: this.state.colorName}
+      let count = this.state.count + 1
+      this.setState({
+        colors: [...this.state.colors, newColor],
+        colorName: "",
+        count: count})
+  }
+
+  clearColors() {
+    this.setState({colors: [], count: 0})
   }
 
   deleteColor(colorName) {
+    let count = this.state.count - 1;
     this.setState({
-      colors: this.state.colors.filter(color => color.name !== colorName)
+      colors: this.state.colors.filter(color => color.name !== colorName),
+      count: count
     })
   }
 
@@ -170,6 +182,18 @@ class PaletteForm extends Component {
     }));
   };
 
+  randomColor() {
+    let count = this.state.count + 1;
+    let generate = chroma.random();
+    let array = generate._rgb.slice(0, 3)
+    const RGB = `rgb(${array[0]}, ${array[1]}, ${array[2]})`
+    const newColor = {
+      color: RGB,
+      name: RGB
+    }
+    this.setState({ colors: [...this.state.colors, newColor], count: count})
+  }
+
   savePalette() {
     let newName = this.state.paletteName
     const newPalette = {
@@ -184,6 +208,7 @@ class PaletteForm extends Component {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+    let paletteIsFull = this.state.count === 20
 
     return (
       <div className={classes.root}>
@@ -247,10 +272,16 @@ class PaletteForm extends Component {
             Create New Palette
           </Typography>
           <div>
-            <Button variant='contained' color='secondary'>
+            <Button variant='contained'
+                    color='secondary'
+                    onClick={this.clearColors}
+            >
               Clear Palette
             </Button>
-            <Button variant='contained' color='primary'>
+            <Button variant='contained'
+                    color='primary'
+                    disabled={paletteIsFull}
+                    onClick={this.randomColor}>
               Random Color
             </Button>
           </div>
@@ -269,7 +300,8 @@ class PaletteForm extends Component {
             <Button variant='contained'
                     type="submit"
                     color='primary'
-                    style={{ backgroundColor: this.state.currentColor}}
+                    disabled={paletteIsFull}
+                    style={{ backgroundColor: paletteIsFull ? "grey" : this.state.currentColor}}
             >
               Add Color
             </Button>
