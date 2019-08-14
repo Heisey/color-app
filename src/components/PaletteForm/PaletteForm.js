@@ -106,6 +106,7 @@ class PaletteForm extends Component {
     }
 
     this.addColor = this.addColor.bind(this);
+    this.deleteColor = this.deleteColor.bind(this);
     this.handleColorChange = this.handleColorChange.bind(this);
     this.handleDrawerClose = this.handleDrawerClose.bind(this);
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
@@ -136,6 +137,12 @@ class PaletteForm extends Component {
   addColor() {
     const newColor = {color: this.state.currentColor, name: this.state.colorName}
     this.setState({ colors: [...this.state.colors, newColor], colorName: ""})
+  }
+
+  deleteColor(colorName) {
+    this.setState({
+      colors: this.state.colors.filter(color => color.name !== colorName)
+    })
   }
 
   handleColorChange(newColor) {
@@ -254,7 +261,7 @@ class PaletteForm extends Component {
             />
             <Button variant='contained'
                     type="submit"
-                    color='mute'
+                    color='primary'
                     style={{ backgroundColor: this.state.currentColor}}
             >
               Add Color
@@ -270,7 +277,11 @@ class PaletteForm extends Component {
         >
           <div className={classes.drawerHeader} />
           {this.state.colors.map(color => (
-            <DraggableColorBox color={color.color} name={color.name} />
+            <DraggableColorBox color={color.color}
+                               key={color.name}
+                               name={color.name}
+                               deleteColor={() => this.deleteColor(color.name)}
+            />
           ))}
         </main>
       </div>
